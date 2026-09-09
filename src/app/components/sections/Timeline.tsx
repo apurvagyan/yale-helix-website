@@ -24,6 +24,7 @@ const STUDENT_2026: TimelineItem[] = [
     date: "September 10",
     event: "Helix Application Office Hours",
     body: "7:00 PM to 9:00 PM.",
+    location: "WLH 119",
   },
   {
     date: "September 12",
