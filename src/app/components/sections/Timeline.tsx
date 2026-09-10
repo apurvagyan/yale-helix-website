@@ -29,7 +29,7 @@ const STUDENT_2026: TimelineItem[] = [
   {
     date: "September 12",
     event: "2026-2027 Helix Fellows Applications Due",
-    body: "11:30 PM.",
+    body: "5:00 PM.",
   },
 ];
 
