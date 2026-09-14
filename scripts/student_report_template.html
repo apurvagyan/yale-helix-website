@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #00356b;
+        --accent: #4268ff;
+        --ink: #14181f;
+        --muted: #5b6573;
+        --line: #e4e7ec;
+      }
+      @page {
+        size: Letter;
+        margin: 18mm 16mm 16mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--ink);
+        font-size: 10.5px;
+        line-height: 1.55;
+        margin: 0;
+      }
+      .eyebrow {
+        font-family: "Space Grotesk", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 9px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0 0 6px;
+      }
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin: 0 0 14px;
+      }
+      .meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 28px;
+        padding: 14px 0 16px;
+        border-top: 2px solid var(--navy);
+        border-bottom: 1px solid var(--line);
+      }
+      .meta .item {
+        display: flex;
+        gap: 8px;
+      }
+      .meta .k {
+        color: var(--muted);
+        min-width: 90px;
+      }
+      .meta .v {
+        font-weight: 500;
+        word-break: break-word;
+      }
+      .interests {
+        padding: 12px 0 0;
+      }
+      .interests .k {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .chip {
+        display: inline-block;
+        padding: 2px 7px;
+        margin: 0 4px 4px 0;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: #f8f9fb;
+        font-size: 9px;
+        color: var(--muted);
+      }
+      section {
+        margin-top: 18px;
+      }
+      h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 0 0 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--line);
+      }
+      .field {
+        margin-bottom: 11px;
+        break-inside: avoid;
+      }
+      .field .label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .field .count {
+        text-transform: none;
+        letter-spacing: 0;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .field .count.over {
+        color: #c0392b;
+        font-weight: 600;
+      }
+      .field .value {
+        white-space: pre-wrap;
+        color: var(--ink);
+      }
+      .attach-note {
+        margin-top: 22px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: 4px;
+        color: var(--muted);
+        background: #f8f9fb;
+      }
+      .attach-note strong {
+        color: var(--ink);
+      }
+      .attach-note ul {
+        margin: 6px 0 0;
+        padding-left: 16px;
+      }
+      .footer {
+        margin-top: 26px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+        font-size: 8.5px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <p class="eyebrow">Yale Helix &middot; Fellow Application 2026&ndash;2027</p>
+    <h1>{{ app.full_name }}</h1>
+
+    <div class="meta">
+      <div class="item"><span class="k">Email</span><span class="v">{{ app.email }}</span></div>
+      <div class="item"><span class="k">Class year</span><span class="v">{{ app.class_year or "&mdash;" }}</span></div>
+      <div class="item"><span class="k">Major</span><span class="v">{{ app.major or "&mdash;" }}</span></div>
+      {% if app.linkedin %}<div class="item"><span class="k">LinkedIn</span><span class="v">{{ app.linkedin }}</span></div>{% endif %}
+      <div class="item"><span class="k">Submitted</span><span class="v">{{ app.submitted_human }}</span></div>
+      <div class="item"><span class="k">Commitment</span><span class="v">{{ app.commitment_level or "&mdash;" }}</span></div>
+    </div>
+
+    {% if app.areas_of_interest %}
+    <div class="interests">
+      <div class="k">Areas of interest ({{ app.areas_of_interest|length }} of 5)</div>
+      {% for area in app.areas_of_interest %}<span class="chip">{{ area }}</span>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% for heading, fields in sections %}
+    <section>
+      <h2>{{ heading }}</h2>
+      {% for label, value, count, over in fields %}{% if value %}
+      <div class="field">
+        <div class="label">
+          {{ label }}{% if count %} <span class="count{% if over %} over{% endif %}">&middot; {{ count }}</span>{% endif %}
+        </div>
+        <div class="value">{{ value }}</div>
+      </div>
+      {% endif %}{% endfor %}
+    </section>
+    {% endfor %}
+
+    <div class="attach-note">
+      <strong>Attachments</strong>
+      {% if appended or saved_aside %}
+      <ul>
+        {% for item in appended %}<li>{{ item }} &mdash; appended on the following pages.</li>{% endfor %}
+        {% for item in saved_aside %}<li>{{ item }} &mdash; cannot be rendered into a PDF; saved alongside this file under <code>attachments/</code>.</li>{% endfor %}
+      </ul>
+      {% else %}
+      <ul>
+        <li>No files were submitted with this application.</li>
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="footer">Generated {{ generated_at }} &middot; Application ID {{ app.id }}</div>
+  </body>
+</html>

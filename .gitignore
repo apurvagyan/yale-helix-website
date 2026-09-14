@@ -37,5 +37,8 @@ next-env.d.ts
 
 # exported application PDFs (private applicant data) + script venv
 /submissions
+/student-submissions
 scripts/.venv
 scripts/__pycache__
+
+.claude/
